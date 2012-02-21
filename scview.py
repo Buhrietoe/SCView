@@ -60,7 +60,6 @@ class streamer:
     message_name = message.structure.get_name()
     if message_name == 'prepare-xwindow-id':
       imagesink = message.src
-      imagesink.set_property('force-aspect-ratio', True)
       gtk.gdk.threads_enter()
       imagesink.set_xwindow_id(self.movie_window.window.xid)
       gtk.gdk.threads_leave()
