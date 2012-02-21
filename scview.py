@@ -23,13 +23,13 @@ import pygst
 pygst.require('0.10')
 import gst
 
-class GTK_Main:
+class streamer:
   
-  def __init__(self):
+  def __init__(self, url):
     window = gtk.Window(gtk.WINDOW_TOPLEVEL)
     window.set_title('SCView')
     window.set_default_size(640, 480)
-    window.connect('destroy', gtk.main_quit, 'WM destroy')
+    window.connect('destroy', gtk.main_quit)
     self.movie_window = gtk.DrawingArea()
     window.add(self.movie_window)
     window.show_all()
@@ -42,7 +42,7 @@ class GTK_Main:
     bus.connect('message', self.on_message)
     bus.connect('sync-message::element', self.on_sync_message)
 
-    self.source.props.location = 'rtsp://admin:admin@10.0.0.105/CH002.sdp'
+    self.source.props.location = url
     self.player.set_state(gst.STATE_PLAYING)
     
   def on_message(self, bus, message):
@@ -65,6 +65,10 @@ class GTK_Main:
       imagesink.set_xwindow_id(self.movie_window.window.xid)
       gtk.gdk.threads_leave()
       
-GTK_Main()
+streamer('rtsp://admin:admin@10.0.0.106/CH002.sdp')
+streamer('rtsp://admin:admin@10.0.0.108/CH002.sdp')
+streamer('rtsp://admin:admin@10.0.0.101/CH002.sdp')
+streamer('rtsp://admin:admin@10.0.0.102/CH002.sdp')
+
 gtk.gdk.threads_init()
 gtk.main()
